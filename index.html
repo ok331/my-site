@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bio Link</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
+</head>
+<body>
+    <div id="landing-page" class="landing-page">
+        <div class="snow-landing"></div>
+        <div class="enter-text animate__animated animate__fadeIn animate__pulse">Click to Enter</div>
+        <audio id="background-music" loop>
+            <source src="https://audio.jukehost.co.uk/Immortal_Technique_Dance_With_The_Devil.mp3" type="audio/mpeg">
+        </audio>
+    </div>
+
+    <div id="main-content" class="hidden">
+        <div class="snow"></div>
+        <div class="mouse-particles"></div>
+        <div class="mouse-outline"></div>
+        
+        <div class="container animate__animated animate__fadeIn">
+            <div class="profile-section">
+                <div class="profile-img-wrapper">
+                    <img src="profile.jpg" alt="Profile" class="profile-img">
+                    <div class="frost-overlay"></div>
+                </div>
+                <div class="caption-wrapper">
+                    <h1 class="caption animate__animated animate__fadeIn">kira</h1>
+                    <div class="caption-outline"></div>
+                </div>
+            </div>
+            
+            <div class="buttons-container">
+                <a href="https://t.me/nerful" class="btn telegram-btn animate__animated animate__fadeIn" target="_blank">
+                    Telegram
+                </a>
+                <button class="btn discord-btn animate__animated animate__fadeIn" onclick="copyDiscord()">
+                    Discord
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
