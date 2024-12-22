@@ -1,14 +1,75 @@
 // Landing Page Enter Functions
 const backgroundMusic = document.getElementById('background-music');
 
+// Audio Controls
+const audio = document.getElementById('background-music');
+const volumeSlider = document.getElementById('volumeSlider');
+const speakerIcon = document.querySelector('.speaker-icon i');
+let lastVolume = 0.5;
+
+// Initialize audio
+audio.volume = 0.5;
+audio.load(); // Ensure the audio is properly loaded
+
+// Handle audio loading
+audio.addEventListener('loadeddata', () => {
+    console.log('Audio loaded successfully');
+});
+
+audio.addEventListener('error', (e) => {
+    console.error('Error loading audio:', e);
+});
+
+// Volume slider control
+volumeSlider.addEventListener('input', (e) => {
+    const volume = e.target.value / 100;
+    audio.volume = volume;
+    lastVolume = volume;
+    
+    // Update speaker icon based on volume
+    updateSpeakerIcon(volume);
+});
+
+// Speaker icon click to mute/unmute
+speakerIcon.parentElement.addEventListener('click', () => {
+    if (audio.volume > 0) {
+        // Mute
+        audio.volume = 0;
+        volumeSlider.value = 0;
+        speakerIcon.className = 'fas fa-volume-mute';
+    } else {
+        // Unmute
+        audio.volume = lastVolume;
+        volumeSlider.value = lastVolume * 100;
+        updateSpeakerIcon(lastVolume);
+    }
+});
+
+// Update speaker icon based on volume level
+function updateSpeakerIcon(volume) {
+    if (volume === 0) {
+        speakerIcon.className = 'fas fa-volume-mute';
+    } else if (volume < 0.5) {
+        speakerIcon.className = 'fas fa-volume-down';
+    } else {
+        speakerIcon.className = 'fas fa-volume-up';
+    }
+}
+
 function enterSite() {
     const landingPage = document.getElementById('landing-page');
     const mainContent = document.getElementById('main-content');
     
-    // Start playing music
-    backgroundMusic.play().catch(error => {
-        console.log("Audio autoplay was prevented by the browser");
-    });
+    // Play audio with user interaction
+    const playPromise = audio.play();
+    
+    if (playPromise !== undefined) {
+        playPromise.then(() => {
+            console.log('Audio playback started successfully');
+        }).catch(error => {
+            console.log('Audio playback was prevented:', error);
+        });
+    }
     
     landingPage.style.opacity = '0';
     setTimeout(() => {
@@ -25,6 +86,8 @@ document.addEventListener('click', (e) => {
         enterSite();
     }
 });
+
+document.getElementById('landing-page').addEventListener('click', enterSite);
 
 // Mouse Follow Effect for Caption Outline
 const captionOutline = document.querySelector('.caption-outline');
@@ -50,62 +113,308 @@ const animationFrame = {
     lastTime: 0
 };
 
-function optimizedAnimateParticles(currentTime) {
-    if (!animationFrame.lastTime) animationFrame.lastTime = currentTime;
-    const deltaTime = currentTime - animationFrame.lastTime;
-    
-    if (deltaTime > 16) { // Roughly 60 FPS
-        ctx.clearRect(0, 0, canvas.width, canvas.height);
-        
-        for(let i = animationFrame.particles.length - 1; i >= 0; i--) {
-            const particle = animationFrame.particles[i];
-            particle.update(deltaTime);
-            particle.draw(ctx);
-            
-            if(particle.life <= 0) {
-                animationFrame.particles.splice(i, 1);
-            }
-        }
-        
-        animationFrame.lastTime = currentTime;
-    }
-    
-    animationFrame.id = requestAnimationFrame(optimizedAnimateParticles);
-}
-
 class Particle {
-    constructor(x, y) {
+    constructor(x, y, isMouseParticle = false, isRaindrop = false) {
         this.x = x;
         this.y = y;
-        this.size = Math.random() * 2 + 0.5; // Reduced particle size
-        this.speedX = Math.random() * 1.5 - 0.75; // Reduced speed
-        this.speedY = Math.random() * 1.5 - 0.75;
-        this.life = 0.7; // Reduced life for faster fade
-        this.velocity = {
-            x: (Math.random() - 0.5) * 1.5, // Smoother movement
-            y: (Math.random() - 0.5) * 1.5
+        this.isMouseParticle = isMouseParticle;
+        this.isRaindrop = isRaindrop;
+        this.targetX = x;
+        this.targetY = y;
+        
+        if (isRaindrop) {
+            this.size = Math.random() * 1.8 + 0.6; // Larger raindrops
+            this.length = this.size * (Math.random() * 4 + 6); // Longer trails
+            this.speed = Math.random() * 4 + 6; // Faster drops
+            this.alpha = Math.random() * 0.4 + 0.2; // More visible
+        } else if (isMouseParticle) {
+            this.size = Math.random() * 2 + 0.8;
+            this.life = 1;
+            this.velocity = {
+                x: 0,
+                y: 0
+            };
+            this.alpha = 0.7;
+            this.speed = 0.15; // Speed of following mouse
+        }
+        
+        this.decay = isMouseParticle ? 0.008 : 0;
+        this.color = {
+            r: 255,
+            g: 255,
+            b: 255
         };
-        this.alpha = 0.5; // Lower initial opacity
     }
 
-    update(deltaTime) {
+    update(deltaTime, mouseX, mouseY) {
         const frameCorrection = deltaTime / 16;
-        this.x += this.velocity.x * frameCorrection * 0.7; // Slower movement
-        this.y += this.velocity.y * frameCorrection * 0.7;
-        this.life -= 0.015 * frameCorrection; // Slower fade
-        this.size = Math.max(0, this.size - 0.03 * frameCorrection);
-        this.alpha = this.life * 0.5; // Smoother fade
+        
+        if (this.isRaindrop) {
+            this.y += this.speed * frameCorrection;
+            
+            if (this.y > window.innerHeight) {
+                this.y = -20;
+                this.x = Math.random() * window.innerWidth;
+                this.size = Math.random() * 1.8 + 0.6;
+                this.length = this.size * (Math.random() * 4 + 6);
+                this.speed = Math.random() * 4 + 6;
+                this.alpha = Math.random() * 0.4 + 0.2;
+            }
+        } else if (this.isMouseParticle) {
+            // Smooth following of mouse
+            this.targetX = mouseX;
+            this.targetY = mouseY;
+            
+            const dx = this.targetX - this.x;
+            const dy = this.targetY - this.y;
+            
+            this.velocity.x = dx * this.speed;
+            this.velocity.y = dy * this.speed;
+            
+            this.x += this.velocity.x * frameCorrection;
+            this.y += this.velocity.y * frameCorrection;
+            
+            this.life -= this.decay * frameCorrection;
+            this.alpha = this.life * 0.7;
+            this.size = Math.max(0.1, this.size - 0.01 * frameCorrection);
+        }
     }
 
     draw(ctx) {
-        ctx.fillStyle = `rgba(255, 255, 255, ${this.alpha})`;
+        if (this.isMouseParticle && this.life <= 0) return;
+        
+        ctx.save();
+        ctx.globalCompositeOperation = 'screen';
+        
+        if (this.isRaindrop) {
+            // Draw raindrop with glow
+            const gradient = ctx.createLinearGradient(
+                this.x, this.y,
+                this.x, this.y + this.length
+            );
+            gradient.addColorStop(0, `rgba(255, 255, 255, ${this.alpha})`);
+            gradient.addColorStop(1, `rgba(255, 255, 255, 0)`);
+            
+            // Add glow effect
+            ctx.shadowColor = 'rgba(255, 255, 255, 0.5)';
+            ctx.shadowBlur = 2;
+            
+            ctx.beginPath();
+            ctx.strokeStyle = gradient;
+            ctx.lineWidth = this.size;
+            ctx.lineCap = 'round';
+            ctx.moveTo(this.x, this.y);
+            ctx.lineTo(this.x, this.y + this.length);
+            ctx.stroke();
+        } else {
+            // Draw mouse particle with glow
+            const gradient = ctx.createRadialGradient(
+                this.x, this.y, 0,
+                this.x, this.y, this.size * 2
+            );
+            gradient.addColorStop(0, `rgba(255, 255, 255, ${this.alpha})`);
+            gradient.addColorStop(0.6, `rgba(255, 255, 255, ${this.alpha * 0.3})`);
+            gradient.addColorStop(1, `rgba(255, 255, 255, 0)`);
+            
+            ctx.shadowColor = 'rgba(255, 255, 255, 0.3)';
+            ctx.shadowBlur = 4;
+            
+            ctx.fillStyle = gradient;
+            ctx.beginPath();
+            ctx.arc(this.x, this.y, this.size * 2, 0, Math.PI * 2);
+            ctx.fill();
+        }
+        
+        ctx.restore();
+    }
+}
+
+// Initialize raindrops
+function initRaindrops() {
+    const numRaindrops = 150; // More raindrops
+    for (let i = 0; i < numRaindrops; i++) {
+        animationFrame.particles.push(
+            new Particle(
+                Math.random() * window.innerWidth,
+                Math.random() * window.innerHeight,
+                false,
+                true
+            )
+        );
+    }
+}
+
+// Mouse movement particle creation
+let mouseX = 0, mouseY = 0;
+const numMouseParticles = 50; // Constant number of mouse particles
+
+// Initialize mouse particles
+for (let i = 0; i < numMouseParticles; i++) {
+    animationFrame.particles.push(new Particle(0, 0, true, false));
+}
+
+document.addEventListener('mousemove', (e) => {
+    mouseX = e.clientX;
+    mouseY = e.clientY;
+});
+
+// Performance optimization for animations
+const fps = 144; // Increased FPS
+const interval = 1000 / fps;
+let then = performance.now();
+
+// Mouse particle system
+class MouseParticle {
+    constructor(x, y) {
+        this.x = x;
+        this.y = y;
+        this.size = Math.random() * 1.5 + 0.8; // More consistent size
+        this.length = this.size * (Math.random() * 3 + 5); // Consistent length
+        this.speedX = (Math.random() * 0.6 - 0.3); // Less horizontal movement
+        this.speedY = Math.random() * 2 + 3; // Consistent downward speed
+        this.life = 0.9;
+        this.decay = 0.015;
+        this.alpha = Math.random() * 0.4 + 0.2;
+    }
+
+    update() {
+        this.x += this.speedX;
+        this.y += this.speedY;
+        this.life -= this.decay;
+        this.alpha = Math.max(0, this.life * 0.4);
+    }
+
+    draw(ctx) {
+        ctx.save();
+        ctx.globalCompositeOperation = 'screen';
+        
+        // Create gradient for raindrop effect
+        const gradient = ctx.createLinearGradient(
+            this.x, this.y,
+            this.x, this.y + this.length
+        );
+        gradient.addColorStop(0, `rgba(255, 255, 255, ${this.alpha})`);
+        gradient.addColorStop(1, `rgba(255, 255, 255, 0)`);
+        
         ctx.beginPath();
-        ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
-        ctx.fill();
+        ctx.strokeStyle = gradient;
+        ctx.lineWidth = this.size;
+        ctx.lineCap = 'round';
+        ctx.moveTo(this.x, this.y);
+        ctx.lineTo(this.x, this.y + this.length);
+        ctx.stroke();
+        
+        ctx.restore();
     }
 }
 
 const mouseParticles = [];
+let lastMouseX = 0, lastMouseY = 0;
+let mouseTimeout = null;
+
+// Track mouse movement
+document.addEventListener('mousemove', (e) => {
+    mouseX = e.clientX;
+    mouseY = e.clientY;
+    
+    const distance = Math.hypot(mouseX - lastMouseX, mouseY - lastMouseY);
+    if (distance > 5) { // Less sensitive to small movements
+        const particlesToCreate = Math.min(2, Math.floor(distance / 15)); // Fewer particles
+        for(let i = 0; i < particlesToCreate; i++) {
+            mouseParticles.push(new MouseParticle(
+                mouseX + Math.random() * 6 - 3, // Less spread
+                mouseY + Math.random() * 6 - 3
+            ));
+        }
+        
+        lastMouseX = mouseX;
+        lastMouseY = mouseY;
+    }
+    
+    clearTimeout(mouseTimeout);
+    mouseTimeout = setTimeout(() => {
+        lastMouseX = mouseX;
+        lastMouseY = mouseY;
+    }, 40);
+});
+
+// Update and draw mouse particles
+function updateMouseParticles(ctx) {
+    while (mouseParticles.length > 40) { // Fewer maximum particles
+        mouseParticles.shift();
+    }
+    
+    for(let i = mouseParticles.length - 1; i >= 0; i--) {
+        const particle = mouseParticles[i];
+        particle.update();
+        particle.draw(ctx);
+        
+        if(particle.life <= 0) {
+            mouseParticles.splice(i, 1);
+        }
+    }
+}
+
+function animate(now) {
+    requestAnimationFrame(animate);
+    
+    const delta = now - then;
+    
+    if (delta > interval) {
+        then = now - (delta % interval);
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        
+        // Update and draw particles
+        for(let i = animationFrame.particles.length - 1; i >= 0; i--) {
+            const particle = animationFrame.particles[i];
+            particle.update(delta, mouseX, mouseY);
+            particle.draw(ctx);
+        }
+        
+        // Update and draw mouse particles
+        updateMouseParticles(ctx);
+    }
+}
+
+// Initialize and start animation
+initRaindrops();
+animate(performance.now());
+
+// Enhanced 3D card effect
+const container = document.querySelector('.container');
+let isFirstMove = true;
+
+container.addEventListener('mousemove', (e) => {
+    const rect = container.getBoundingClientRect();
+    const x = e.clientX - rect.left;
+    const y = e.clientY - rect.top;
+    
+    const centerX = rect.width / 2;
+    const centerY = rect.height / 2;
+    
+    const rotateX = ((y - centerY) / centerY) * 12;
+    const rotateY = ((x - centerX) / centerX) * 12;
+    
+    if (isFirstMove) {
+        container.style.transition = 'transform 0.1s ease-out';
+        isFirstMove = false;
+    }
+    
+    container.style.transform = `
+        perspective(1000px) 
+        rotateX(${-rotateX}deg) 
+        rotateY(${rotateY}deg) 
+        scale3d(1.02, 1.02, 1.02)
+        translateZ(10px)
+    `;
+});
+
+container.addEventListener('mouseleave', () => {
+    isFirstMove = true;
+    container.style.transition = 'transform 0.5s cubic-bezier(0.2, 0, 0.1, 1)';
+    container.style.transform = 'perspective(1000px) rotateX(0) rotateY(0) scale3d(1, 1, 1) translateZ(0)';
+});
+
 const canvas = document.createElement('canvas');
 const ctx = canvas.getContext('2d');
 document.querySelector('.mouse-particles').appendChild(canvas);
@@ -116,137 +425,6 @@ function resizeCanvas() {
 }
 resizeCanvas();
 window.addEventListener('resize', resizeCanvas);
-
-let mouseX = 0, mouseY = 0;
-document.addEventListener('mousemove', (e) => {
-    mouseX = e.clientX;
-    mouseY = e.clientY;
-    for(let i = 0; i < 2; i++) { // Reduced number of particles
-        animationFrame.particles.push(new Particle(mouseX, mouseY));
-    }
-});
-
-// Start the optimized animation loop
-optimizedAnimateParticles(0);
-
-// Enhanced Snowflake Creation with improved performance
-const snowflakePool = [];
-const maxSnowflakes = 300; // Even more snowflakes
-
-function createSnowflake() {
-    let snowflake;
-    if (snowflakePool.length < maxSnowflakes) {
-        snowflake = document.createElement('div');
-        snowflake.classList.add('snowflake');
-    } else {
-        snowflake = snowflakePool.pop();
-        snowflake.style.opacity = Math.random() * 0.85 + 0.15;
-    }
-    
-    snowflake.style.left = Math.random() * window.innerWidth + 'px';
-    snowflake.style.width = snowflake.style.height = Math.random() * 4 + 2 + 'px';
-    
-    const container = Math.random() < 0.5 ? 
-        document.querySelector('.snow') : 
-        document.querySelector('.snow-landing');
-    
-    container.appendChild(snowflake);
-    
-    const duration = Math.random() * 2000 + 3000;
-    const startDelay = Math.random() * 300; // Even shorter delay
-    
-    const animation = snowflake.animate([
-        { 
-            transform: 'translateY(-10px) rotate(0deg)', 
-            opacity: snowflake.style.opacity 
-        },
-        { 
-            transform: `translateY(${window.innerHeight + 10}px) rotate(360deg)`, 
-            opacity: 0 
-        }
-    ], {
-        duration: duration,
-        delay: startDelay,
-        easing: 'linear',
-        iterations: 1
-    });
-    
-    animation.onfinish = () => {
-        const rect = snowflake.getBoundingClientRect();
-        const elements = document.querySelectorAll('.caption, .btn, .enter-text, .container');
-        let shouldFreeze = false;
-        
-        elements.forEach(element => {
-            const elementRect = element.getBoundingClientRect();
-            const distance = Math.hypot(
-                rect.left - elementRect.left,
-                rect.top - elementRect.top
-            );
-            
-            if (distance < 80 && Math.random() < 0.5) { // Increased freeze chance and range
-                shouldFreeze = true;
-                snowflake.classList.add('frozen');
-                
-                const freeze = document.createElement('div');
-                freeze.classList.add('freeze-overlay');
-                
-                // Adjust freeze overlay position based on element type
-                if (element.classList.contains('container')) {
-                    // For container, create smaller freeze spots
-                    freeze.style.width = '100px';
-                    freeze.style.height = '100px';
-                    freeze.style.left = `${rect.left}px`;
-                    freeze.style.top = `${rect.top}px`;
-                } else {
-                    // For other elements, follow their shape
-                    freeze.style.left = `${elementRect.left}px`;
-                    freeze.style.top = `${elementRect.top}px`;
-                    freeze.style.width = `${elementRect.width * 1.2}px`;
-                    freeze.style.height = `${elementRect.height * 1.2}px`;
-                    freeze.style.transform = 'translate(-10%, -10%)';
-                }
-                
-                document.body.appendChild(freeze);
-                
-                requestAnimationFrame(() => {
-                    freeze.style.opacity = '1';
-                    element.style.textShadow = '0 0 20px rgba(255, 255, 255, 0.6)';
-                    element.style.transition = 'all 0.3s ease';
-                    
-                    // Add extra glow effect to container
-                    if (element.classList.contains('container')) {
-                        element.style.boxShadow = '0 0 30px rgba(255, 255, 255, 0.1)';
-                    }
-                });
-                
-                setTimeout(() => {
-                    freeze.style.opacity = '0';
-                    element.style.textShadow = '';
-                    if (element.classList.contains('container')) {
-                        element.style.boxShadow = '';
-                    }
-                    setTimeout(() => {
-                        freeze.remove();
-                        snowflake.classList.remove('frozen');
-                        snowflakePool.push(snowflake);
-                    }, 500);
-                }, 1500);
-            }
-        });
-        
-        if (!shouldFreeze) {
-            snowflakePool.push(snowflake);
-        }
-    };
-}
-
-// Create snowflakes more frequently
-setInterval(createSnowflake, 15); // Even more frequent
-
-// Initial snowflake burst
-for(let i = 0; i < 100; i++) { // Doubled initial burst
-    createSnowflake();
-}
 
 // Discord Copy Function with Custom Notification
 function copyDiscord() {
@@ -267,37 +445,4 @@ function copyDiscord() {
     });
 }
 
-// Add 3D card effect
-const container = document.querySelector('.container');
-container.addEventListener('mousemove', (e) => {
-    const rect = container.getBoundingClientRect();
-    const x = e.clientX - rect.left;
-    const y = e.clientY - rect.top;
-    
-    const centerX = rect.width / 2;
-    const centerY = rect.height / 2;
-    
-    const rotateX = ((y - centerY) / centerY) * 10; // Max 10 degree rotation
-    const rotateY = ((x - centerX) / centerX) * 10;
-    
-    container.style.transform = `perspective(1000px) rotateX(${-rotateX}deg) rotateY(${rotateY}deg) scale3d(1.02, 1.02, 1.02)`;
-});
-
-container.addEventListener('mouseleave', () => {
-    container.style.transform = 'perspective(1000px) rotateX(0) rotateY(0) scale3d(1, 1, 1)';
-});
-
-// Optimize animation frame rate
-const fps = 60;
-const interval = 1000 / fps;
-let then = performance.now();
-
-function animate(now) {
-    const elapsed = now - then;
-    if (elapsed > interval) {
-        then = now - (elapsed % interval);
-        optimizedAnimateParticles(now);
-    }
-    requestAnimationFrame(animate);
-}
-animate(performance.now());
+const maxSnowflakes = 0;
