@@ -55,47 +55,42 @@ body {
     position: relative;
     z-index: 2;
     text-align: center;
-    padding: 2rem;
-    max-width: 700px;
-    width: 90%;
-    background: rgba(5, 5, 5, 0.25);
-    backdrop-filter: blur(12px);
-    border-radius: 24px;
-    border: 1px solid rgba(255, 255, 255, 0.05);
+    padding: 2.4rem;
+    max-width: 720px;
+    width: 92%;
+    background: rgba(0, 0, 0, 0.35);
+    backdrop-filter: blur(15px);
+    border-radius: 28px;
+    border: 1px solid rgba(255, 255, 255, 0.08);
     animation: fadeScale 0.5s ease-out;
-    box-shadow: 0 0 30px rgba(0, 0, 0, 0.2);
-    transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: 0 0 40px rgba(0, 0, 0, 0.2);
+    transition: all 0.4s cubic-bezier(0.2, 0, 0.1, 1);
     transform-style: preserve-3d;
     perspective: 1000px;
 }
 
 .container:hover {
-    background: rgba(5, 5, 5, 0.35);
-    border-color: rgba(255, 255, 255, 0.08);
+    background: rgba(0, 0, 0, 0.45);
+    border-color: rgba(255, 255, 255, 0.12);
+    box-shadow: 0 0 50px rgba(0, 0, 0, 0.25);
     transform: translateY(-2px);
-    box-shadow: 0 0 40px rgba(0, 0, 0, 0.4);
 }
 
 .profile-section {
     margin-bottom: 2rem;
     position: relative;
-    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-.profile-section:hover {
-    transform: scale(1.02);
+    transition: transform 0.3s cubic-bezier(0.2, 0, 0.1, 1);
 }
 
 .profile-img-wrapper {
-    width: 130px;
-    height: 130px;
+    width: 120px;
+    height: 120px;
     margin: 0 auto 1.5rem;
     position: relative;
     overflow: visible;
     border-radius: 50%;
-    box-shadow: 0 0 20px rgba(255, 255, 255, 0.08);
-    animation: pulse 3s infinite;
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: 0 0 25px rgba(255, 255, 255, 0.05);
+    transition: all 0.3s cubic-bezier(0.2, 0, 0.1, 1);
 }
 
 .profile-img {
@@ -104,11 +99,12 @@ body {
     object-fit: cover;
     border-radius: 50%;
     transition: all 0.3s ease;
+    border: 1px solid rgba(255, 255, 255, 0.05);
 }
 
 .profile-img:hover {
-    transform: scale(1.1);
-    box-shadow: 0 0 40px rgba(255, 255, 255, 0.2);
+    transform: scale(1.05);
+    border-color: rgba(255, 255, 255, 0.1);
 }
 
 .caption-wrapper {
@@ -118,22 +114,22 @@ body {
 }
 
 .caption {
-    font-size: 1.4rem;
+    font-size: 1.3rem;
     font-weight: 500;
-    opacity: 0.9;
-    letter-spacing: 5px;
-    text-shadow: 0 0 8px rgba(255, 255, 255, 0.3);
-    transform: scaleX(1.1);
-    color: rgba(255, 255, 255, 0.85);
+    opacity: 0.95;
+    letter-spacing: 4px;
+    text-shadow: 0 0 10px rgba(255, 255, 255, 0.2);
+    transform: scaleX(1.05);
+    color: rgba(255, 255, 255, 0.95);
     position: relative;
     z-index: 2;
     text-transform: lowercase;
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    transition: all 0.3s cubic-bezier(0.2, 0, 0.1, 1);
 }
 
 .caption:hover {
-    letter-spacing: 6px;
-    text-shadow: 0 0 12px rgba(255, 255, 255, 0.4);
+    letter-spacing: 5px;
+    text-shadow: 0 0 15px rgba(255, 255, 255, 0.3);
 }
 
 .buttons-container {
@@ -144,42 +140,45 @@ body {
     align-items: center;
     opacity: 0;
     transform: translateY(20px);
-    animation: fadeInContainer 0.8s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+    animation: fadeInContainer 0.8s cubic-bezier(0.2, 0, 0.1, 1) forwards;
     animation-delay: 0.2s;
     margin-top: 2rem;
-    padding: 0.8rem;
-    border-radius: 16px;
-    background: rgba(0, 0, 0, 0.2);
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    padding: 1rem;
+    border-radius: 20px;
+    background: rgba(0, 0, 0, 0.3);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.06);
 }
 
 .buttons-container:hover {
-    background: rgba(0, 0, 0, 0.25);
-    transform: scale(1.02);
+    background: rgba(0, 0, 0, 0.4);
+    border-color: rgba(255, 255, 255, 0.1);
+    box-shadow: 0 0 40px rgba(0, 0, 0, 0.2);
 }
 
 .btn {
-    background: rgba(0, 0, 0, 0.4);
-    color: rgba(255, 255, 255, 0.9);
-    padding: 0.8rem 1.8rem;
-    border-radius: 12px;
+    background: rgba(0, 0, 0, 0.3);
+    color: rgba(255, 255, 255, 0.95);
+    padding: 0.8rem 1.6rem;
+    border-radius: 14px;
     text-decoration: none;
-    font-size: 0.95rem;
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    border: 1px solid rgba(255, 255, 255, 0.08);
+    font-size: 0.92rem;
+    transition: all 0.3s cubic-bezier(0.2, 0, 0.1, 1);
+    border: 1px solid rgba(255, 255, 255, 0.04);
     cursor: pointer;
-    min-width: 140px;
+    min-width: 130px;
     backdrop-filter: blur(8px);
     position: relative;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    letter-spacing: 0.5px;
 }
 
 .btn:hover {
-    transform: translateY(-3px) scale(1.03);
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
-    background: rgba(0, 0, 0, 0.5);
-    border-color: rgba(255, 255, 255, 0.12);
-    letter-spacing: 0.5px;
+    transform: translateY(-2px);
+    background: rgba(0, 0, 0, 0.4);
+    border-color: rgba(255, 255, 255, 0.08);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+    letter-spacing: 0.8px;
 }
 
 .telegram-btn {
@@ -200,43 +199,7 @@ body {
     animation-delay: 0.8s;
 }
 
-.freeze-overlay {
-    position: absolute;
-    background: linear-gradient(
-        135deg,
-        rgba(255, 255, 255, 0.15),
-        rgba(255, 255, 255, 0.05)
-    );
-    pointer-events: none;
-    backdrop-filter: blur(4px);
-    opacity: 0;
-    transition: opacity 0.8s cubic-bezier(0.4, 0, 0.2, 1);
-    border-radius: 4px;
-    box-shadow: 0 0 25px rgba(255, 255, 255, 0.2);
-    border: 1px solid rgba(255, 255, 255, 0.1);
-}
-
 .mouse-particles {
-    pointer-events: none;
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    z-index: 100;
-}
-
-.mouse-outline {
-    pointer-events: none;
-    position: fixed;
-    width: 100%;
-    height: 100%;
-    top: 0;
-    left: 0;
-    z-index: 99;
-}
-
-.snow-landing, .snow {
     position: fixed;
     top: 0;
     left: 0;
@@ -246,46 +209,146 @@ body {
     z-index: 1;
 }
 
-.snowflake {
-    position: absolute;
-    background: white;
-    border-radius: 50%;
-    pointer-events: none;
-    opacity: 0.85;
-    filter: blur(1px);
-    transition: all 0.3s ease;
-    will-change: transform;
-    box-shadow: 0 0 8px rgba(255, 255, 255, 0.3);
+canvas {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
 }
 
-.snowflake.frozen {
-    filter: blur(2px);
-    opacity: 0.95;
-    animation: none !important;
-    box-shadow: 0 0 20px rgba(255, 255, 255, 0.4);
+.snowflake, .freeze-overlay, .snow, .snow-landing {
+    display: none;
 }
 
 .notification {
     position: fixed;
-    top: 20px;
+    bottom: 20px;
     left: 50%;
-    transform: translateX(-50%) translateY(-100px);
-    background: rgba(20, 20, 20, 0.95);
+    transform: translateX(-50%);
+    background: rgba(0, 0, 0, 0.8);
     color: white;
-    padding: 1rem 2rem;
+    padding: 12px 24px;
     border-radius: 12px;
-    backdrop-filter: blur(5px);
-    box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
-    z-index: 2000;
-    opacity: 0;
-    transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
     font-size: 0.9rem;
-    letter-spacing: 1px;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
 }
 
 .notification.show {
     transform: translateX(-50%) translateY(0);
     opacity: 1;
+}
+
+.volume-control {
+    position: fixed;
+    top: 20px;
+    left: 20px;
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    background: rgba(0, 0, 0, 0.2);
+    padding: 10px;
+    border-radius: 30px;
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    transition: all 0.3s cubic-bezier(0.2, 0, 0.1, 1);
+}
+
+.volume-control:hover {
+    background: rgba(0, 0, 0, 0.3);
+    border-color: rgba(255, 255, 255, 0.1);
+}
+
+.speaker-icon {
+    width: 30px;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    color: rgba(255, 255, 255, 0.8);
+    transition: all 0.3s ease;
+}
+
+.speaker-icon:hover {
+    color: rgba(255, 255, 255, 1);
+    transform: scale(1.1);
+}
+
+.volume-slider {
+    width: 0;
+    overflow: hidden;
+    transition: width 0.3s ease;
+    margin-left: 5px;
+}
+
+.volume-control:hover .volume-slider {
+    width: 100px;
+}
+
+.slider {
+    width: 100px;
+    height: 4px;
+    -webkit-appearance: none;
+    background: rgba(255, 255, 255, 0.1);
+    outline: none;
+    border-radius: 2px;
+    transition: all 0.3s ease;
+}
+
+.slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 12px;
+    height: 12px;
+    background: rgba(255, 255, 255, 0.9);
+    border-radius: 50%;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.slider::-webkit-slider-thumb:hover {
+    background: #ffffff;
+    transform: scale(1.2);
+}
+
+.slider::-moz-range-thumb {
+    width: 12px;
+    height: 12px;
+    background: rgba(255, 255, 255, 0.9);
+    border-radius: 50%;
+    cursor: pointer;
+    border: none;
+    transition: all 0.3s ease;
+}
+
+.slider::-moz-range-thumb:hover {
+    background: #ffffff;
+    transform: scale(1.2);
+}
+
+.slider:hover {
+    background: rgba(255, 255, 255, 0.2);
+}
+
+.bio-text {
+    font-size: 0.95rem;
+    color: rgba(255, 255, 255, 0.9);
+    text-align: center;
+    margin-top: 5px;
+    margin-bottom: 30px;
+    font-family: 'Poppins', sans-serif;
+    letter-spacing: 2px;
+    text-shadow: 0 0 12px rgba(255, 255, 255, 0.4),
+                 0 0 24px rgba(255, 255, 255, 0.2);
+    animation: glowPulse 2s infinite;
+    opacity: 0.9;
+    padding-top: 15px;
 }
 
 @keyframes fadeInContainer {
@@ -313,25 +376,11 @@ body {
 @keyframes fadeScale {
     from {
         opacity: 0;
-        transform: scale(0.95);
+        transform: scale(0.98);
     }
     to {
         opacity: 1;
         transform: scale(1);
-    }
-}
-
-@keyframes frost {
-    0% {
-        left: -100%;
-        opacity: 0;
-    }
-    50% {
-        opacity: 1;
-    }
-    100% {
-        left: 100%;
-        opacity: 0;
     }
 }
 
@@ -359,5 +408,21 @@ body {
     100% {
         text-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
         transform: scale(1);
+    }
+}
+
+@keyframes glowPulse {
+    0% { 
+        text-shadow: 0 0 10px rgba(255, 255, 255, 0.3),
+                    0 0 20px rgba(255, 255, 255, 0.1);
+    }
+    50% { 
+        text-shadow: 0 0 15px rgba(255, 255, 255, 0.4),
+                    0 0 25px rgba(255, 255, 255, 0.2),
+                    0 0 35px rgba(255, 255, 255, 0.1);
+    }
+    100% { 
+        text-shadow: 0 0 10px rgba(255, 255, 255, 0.3),
+                    0 0 20px rgba(255, 255, 255, 0.1);
     }
 }
