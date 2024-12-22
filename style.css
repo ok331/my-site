@@ -55,27 +55,29 @@ body {
     position: relative;
     z-index: 2;
     text-align: center;
-    padding: 2.5rem;
-    max-width: 800px;
+    padding: 2rem;
+    max-width: 700px;
     width: 90%;
-    background: rgba(5, 5, 5, 0.4);
-    backdrop-filter: blur(10px);
-    border-radius: 20px;
-    border: 1px solid rgba(255, 255, 255, 0.08);
+    background: rgba(5, 5, 5, 0.25);
+    backdrop-filter: blur(12px);
+    border-radius: 24px;
+    border: 1px solid rgba(255, 255, 255, 0.05);
     animation: fadeScale 0.5s ease-out;
-    box-shadow: 0 0 30px rgba(0, 0, 0, 0.3);
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: 0 0 30px rgba(0, 0, 0, 0.2);
+    transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+    transform-style: preserve-3d;
+    perspective: 1000px;
 }
 
 .container:hover {
-    background: rgba(5, 5, 5, 0.5);
-    border-color: rgba(255, 255, 255, 0.12);
+    background: rgba(5, 5, 5, 0.35);
+    border-color: rgba(255, 255, 255, 0.08);
     transform: translateY(-2px);
     box-shadow: 0 0 40px rgba(0, 0, 0, 0.4);
 }
 
 .profile-section {
-    margin-bottom: 2.5rem;
+    margin-bottom: 2rem;
     position: relative;
     transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
@@ -85,14 +87,14 @@ body {
 }
 
 .profile-img-wrapper {
-    width: 150px;
-    height: 150px;
-    margin: 0 auto 2rem;
+    width: 130px;
+    height: 130px;
+    margin: 0 auto 1.5rem;
     position: relative;
     overflow: visible;
     border-radius: 50%;
-    box-shadow: 0 0 30px rgba(255, 255, 255, 0.1);
-    animation: pulse 2s infinite;
+    box-shadow: 0 0 20px rgba(255, 255, 255, 0.08);
+    animation: pulse 3s infinite;
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
@@ -116,70 +118,68 @@ body {
 }
 
 .caption {
-    font-size: 1.5rem;
+    font-size: 1.4rem;
     font-weight: 500;
-    opacity: 0.98;
-    letter-spacing: 6px;
-    text-shadow: 0 0 10px rgba(255, 255, 255, 0.4),
-                 0 0 20px rgba(255, 255, 255, 0.2);
-    transform: scaleX(1.2);
+    opacity: 0.9;
+    letter-spacing: 5px;
+    text-shadow: 0 0 8px rgba(255, 255, 255, 0.3);
+    transform: scaleX(1.1);
+    color: rgba(255, 255, 255, 0.85);
     position: relative;
     z-index: 2;
     text-transform: lowercase;
-    color: rgba(255, 255, 255, 0.95);
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .caption:hover {
-    letter-spacing: 8px;
-    text-shadow: 0 0 15px rgba(255, 255, 255, 0.5),
-                 0 0 30px rgba(255, 255, 255, 0.3);
+    letter-spacing: 6px;
+    text-shadow: 0 0 12px rgba(255, 255, 255, 0.4);
 }
 
 .buttons-container {
     display: flex;
     flex-direction: row;
     justify-content: center;
-    gap: 1.5rem;
+    gap: 1.2rem;
     align-items: center;
     opacity: 0;
     transform: translateY(20px);
     animation: fadeInContainer 0.8s cubic-bezier(0.4, 0, 0.2, 1) forwards;
     animation-delay: 0.2s;
     margin-top: 2rem;
-    padding: 0.5rem;
+    padding: 0.8rem;
     border-radius: 16px;
-    background: rgba(0, 0, 0, 0.3);
+    background: rgba(0, 0, 0, 0.2);
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .buttons-container:hover {
-    background: rgba(0, 0, 0, 0.4);
+    background: rgba(0, 0, 0, 0.25);
     transform: scale(1.02);
 }
 
 .btn {
-    background: rgba(0, 0, 0, 0.95);
-    color: white;
-    padding: 0.8rem 2rem;
+    background: rgba(0, 0, 0, 0.4);
+    color: rgba(255, 255, 255, 0.9);
+    padding: 0.8rem 1.8rem;
     border-radius: 12px;
     text-decoration: none;
-    font-size: 1rem;
+    font-size: 0.95rem;
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    border: 1px solid rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.08);
     cursor: pointer;
-    min-width: 160px;
+    min-width: 140px;
     backdrop-filter: blur(8px);
     position: relative;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
 .btn:hover {
-    transform: translateY(-5px) scale(1.05);
-    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.4);
-    background: rgb(0, 0, 0);
-    border-color: rgba(255, 255, 255, 0.2);
-    letter-spacing: 1px;
+    transform: translateY(-3px) scale(1.03);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+    background: rgba(0, 0, 0, 0.5);
+    border-color: rgba(255, 255, 255, 0.12);
+    letter-spacing: 0.5px;
 }
 
 .telegram-btn {
@@ -337,13 +337,13 @@ body {
 
 @keyframes pulse {
     0% {
-        box-shadow: 0 0 20px rgba(255, 255, 255, 0.2);
+        box-shadow: 0 0 20px rgba(255, 255, 255, 0.1);
     }
     50% {
-        box-shadow: 0 0 40px rgba(255, 255, 255, 0.4);
+        box-shadow: 0 0 30px rgba(255, 255, 255, 0.15);
     }
     100% {
-        box-shadow: 0 0 20px rgba(255, 255, 255, 0.2);
+        box-shadow: 0 0 20px rgba(255, 255, 255, 0.1);
     }
 }
 
