@@ -8,13 +8,23 @@
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@500;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
 </head>
 <body>
+    <div class="volume-control">
+        <div class="speaker-icon">
+            <i class="fas fa-volume-up"></i>
+        </div>
+        <div class="volume-slider">
+            <input type="range" min="0" max="100" value="50" class="slider" id="volumeSlider">
+        </div>
+    </div>
     <div id="landing-page" class="landing-page">
         <div class="snow-landing"></div>
         <div class="enter-text animate__animated animate__fadeIn animate__pulse">Click to Enter</div>
-        <audio id="background-music" loop>
-            <source src="https://audio.jukehost.co.uk/Immortal_Technique_Dance_With_The_Devil.mp3" type="audio/mpeg">
+        <audio id="background-music" loop preload="auto">
+            <source src="song.mp3" type="audio/mpeg">
+            Your browser does not support the audio element.
         </audio>
     </div>
 
@@ -31,6 +41,7 @@
                 </div>
                 <div class="caption-wrapper">
                     <h1 class="caption animate__animated animate__fadeIn">kira</h1>
+                    <div class="bio-text">i exist for you</div>
                     <div class="caption-outline"></div>
                 </div>
             </div>
